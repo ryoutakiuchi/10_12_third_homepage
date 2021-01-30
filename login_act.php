@@ -8,6 +8,8 @@ $pdo = connect();
 
 $username = $_POST['username'];
 $password = $_POST['password'];
+// var_dump($_POST);
+// exit();
 
 $sql = 'SELECT * FROM users_table
           WHERE username=:username

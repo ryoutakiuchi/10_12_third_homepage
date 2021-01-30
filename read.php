@@ -4,12 +4,29 @@
 ini_set('display_errors', 1);
 session_start();
 include('common.php');
+check_session_id();
 
 $user_id = $_SESSION["id"];
 // var_dump($user_id);
 // exit();
 
+$todo = $_POST['todo'];
+$deadline = $_POST['deadline'];
+// var_dump($deadline);
+// exit();
+
+
 $pdo = connect();
+
+$sql = 'INSERT INTO todo_table(id, todo, deadline, created_at, updated_at) VALUES(NULL, :todo, :deadline, sysdate(), sysdate())';
+
+// var_dump($_sql);
+// exit();
+// SQL準備&実行
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(':todo', $todo, PDO::PARAM_STR);
+$stmt->bindValue(':deadline', $deadline, PDO::PARAM_STR);
+$status = $stmt->execute();
 
 $username = $_SESSION["username"];
 
@@ -201,7 +218,11 @@ if ($status == false) {
 
 </table>
 <table>
+
     <h1 id="voice">ご感想</h1>
+    <div class="coment">
+        <a href="todo_input.php">コメントはこちらから</a>
+    </div>
     <?= $output ?>
 </table>
 
